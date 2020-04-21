@@ -12,7 +12,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class ChartComponentComponent implements OnInit {
 
   public lineChartData: ChartDataSets[] = [
-    { data: [], label: 'g4vhz7' },
+    { data: [], label: '' },
   ];
   public lineChartLabels: Label[] = [];
   public lineChartOptions: ChartOptions = {
@@ -34,18 +34,15 @@ export class ChartComponentComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
-      this.lineChartData[0].label = params['id'];
-      this.apiService.getCustomerById(params['id'])
+      const id = params['id'];
+      this.lineChartData[0].label = id;
+      this.apiService.getCustomerById(id)
         .subscribe((data) => {
             this.lineChartData[0].data = data['y'];
             this.lineChartLabels = data['x'];
           }
-        ); // (+) converts string 'id' to a number
-    ​
-      // In a real app: dispatch action to load the details here.
+        );
     });
-
-
   }
 
 }
