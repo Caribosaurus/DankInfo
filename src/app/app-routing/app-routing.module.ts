@@ -4,7 +4,7 @@ import {ChartComponentComponent} from '../chart-component/chart-component.compon
 
 const routes: Routes = [
   {
-    path: ':id',
+    path: 'post/:id',
     component: ChartComponentComponent,
   },
 ];

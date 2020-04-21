@@ -34,6 +34,7 @@ export class ChartComponentComponent implements OnInit {
   ngOnInit() {
 
     this.route.params.subscribe(params => {
+      this.lineChartData[0].label = params['id'];
       this.apiService.getCustomerById(params['id'])
         .subscribe((data) => {
             this.lineChartData[0].data = data['y'];
