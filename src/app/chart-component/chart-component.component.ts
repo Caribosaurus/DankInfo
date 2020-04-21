@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import {HttpClient} from '@angular/common/http';
+import { ApiService} from '../api.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-chart-component',
@@ -27,18 +28,23 @@ export class ChartComponentComponent implements OnInit {
   public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor(private http: HttpClient) {
-    this.http.get('https://uz9t4q6y9j.execute-api.eu-west-1.amazonaws.com/prod/g4vhz7')
-      .subscribe((data) => {
-        this.lineChartData[0].data = data['y'];
-        this.lineChartLabels = data['x'];
-        }
-      );
-
-
+  constructor(private apiService: ApiService, private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+
+    this.route.params.subscribe(params => {
+      this.apiService.getCustomerById(params['id'])
+        .subscribe((data) => {
+            this.lineChartData[0].data = data['y'];
+            this.lineChartLabels = data['x'];
+          }
+        ); // (+) converts string 'id' to a number
+    ​
+      // In a real app: dispatch action to load the details here.
+    });
+
+
   }
 
 }
